@@ -2,6 +2,7 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, B
 import { observer } from "mobx-react-lite";
 import { FC } from "react";
 import eventsStore from "../../stores/EventsStore";
+import { useRenderCount } from "../../hooks/useRenderCount";
 
 interface IProps {
     open: boolean
@@ -11,6 +12,8 @@ interface IProps {
 export const Modal: FC<IProps> = observer(({ open, handleClose }) => {
     const { event } = eventsStore
     const { message } = event || {}
+    const { activeCount } = useRenderCount('Modal')
+    activeCount()
 
     return (
         <Dialog

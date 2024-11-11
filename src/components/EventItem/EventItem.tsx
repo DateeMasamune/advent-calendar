@@ -1,6 +1,7 @@
 import { FC, memo, useCallback } from 'react'
 import styles from './styles.module.css'
 import eventsStore from '../../stores/EventsStore';
+import { useRenderCount } from '../../hooks/useRenderCount';
 
 interface IProps {
     date: Date;
@@ -9,6 +10,8 @@ interface IProps {
 }
 
 export const EventItem: FC<IProps> = memo(({ date, id, handleClickOpen }) => {
+    const { activeCount } = useRenderCount('EventItem')
+    activeCount()
     const localDate = `${date.getDate()}.${date.getMonth() + 1}`
     const isDisabled = Date.now() <= date.getTime()
     const className = isDisabled ? `${styles.container} ${styles.disabled}` : styles.container

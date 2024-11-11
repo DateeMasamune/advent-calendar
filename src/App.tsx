@@ -1,13 +1,13 @@
-import { observer } from "mobx-react-lite"
-import { EventItem } from "./components/EventItem/EventItem"
 import { Modal } from "./components/Modal/Modal"
-import eventsStore from "./stores/EventsStore"
-import styles from './styles.module.css'
 import { useCallback, useState } from "react"
+import { Header } from "./components/Header/Header"
+import { useRenderCount } from "./hooks/useRenderCount"
+import { EventList } from "./components/EventList/EventList"
 
-export const App = observer(() => {
+export const App = () => {
   const [open, setOpen] = useState(false)
-  const { events } = eventsStore
+  const { activeCount } = useRenderCount('App')
+  activeCount()
 
   const handleClickOpen = useCallback(() => {
     setOpen(true);
@@ -19,15 +19,9 @@ export const App = observer(() => {
 
   return (
     <>
-      <header className={`${styles.header} ${styles.snowblock}`}>
-        <p className={styles.title}>
-          ADVENT CALENDAR {new Date().getFullYear()} 💖
-        </p>
-      </header>
-      <div className={styles.container}>
-        {events.map(({ id, date }) => <EventItem key={id} id={id} date={date} handleClickOpen={handleClickOpen} />)}
-        <Modal open={open} handleClose={handleClose} />
-      </div>
+      <Header />
+      <EventList handleClickOpen={handleClickOpen} />
+      <Modal open={open} handleClose={handleClose} />
     </>
   )
-})
+}
